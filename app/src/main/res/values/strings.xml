@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Mobile</string>
+    <string name="name">Input your name</string>
+    <string name="clear_message">Clear</string>
+    <string name="say_hello">Say Hello</string>
+    <string name="hello">Hello</string>
+    <string name="next_lab">Next lab</string>
+    <string name="first_name">Імя</string>
+    <string name="last_name">Прізвище</string>
+    <string name="email">Email</string>
+    <string name="phone">Телефон</string>
+    <string name="password">Пароль</string>
+    <string name="confirm_password">Перевірка паролів</string>
+    <string name="submit_data">Надіслати</string>
 </resources>
