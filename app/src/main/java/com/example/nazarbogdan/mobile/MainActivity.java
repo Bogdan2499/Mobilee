@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             if (!Validations.isValidFirstName(firstName)) {
                 firstNameEditText.setError("Такого імені неіснує!");
             }
-            if (!Validations.isValidLastName(lastName)){
+            if (!Validations.isValidLastName(lastName)) {
                 lastNameEditText.setError("Такого прізвища неіснує!");
             }
             if (!Validations.isValidPassword(password)) {
