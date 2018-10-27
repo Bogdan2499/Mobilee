@@ -1,105 +1,78 @@
 package com.example.nazarbogdan.mobile;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
-import com.google.gson.Gson;
+import com.example.nazarbogdan.mobile.Adapter.NewsAdapter;
+import com.example.nazarbogdan.mobile.Models.Article;
+import com.example.nazarbogdan.mobile.Models.Result;
+import com.example.nazarbogdan.mobile.Retrofit.ApiService;
+import com.example.nazarbogdan.mobile.Retrofit.ApiUtils;
 
-public class MainActivity extends AppCompatActivity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-    EditText firstNameEditText, lastNameEditText, emailEditText;
-    EditText phoneEditText, passwordEditText, passwordConfirmEditText;
-    Button submitButton, newAct;
-    SharedPreferences mPrefs;
-    String firstName, lastName, email;
-    String phone, password, confirmPassword;
+public class MainActivity extends AppCompatActivity implements NewsAdapter.Callback {
+
+    private ApiService apiService;
+    private NewsAdapter adapter = new NewsAdapter(this, this);
+    @BindView(R.id.rvNews)
+    RecyclerView rvGames;
+    @BindView(R.id.swipeContainer)
+    SwipeRefreshLayout pullToRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        firstNameEditText = findViewById(R.id.firstNameEditText);
-        lastNameEditText = findViewById(R.id.lastNameEditText);
-        emailEditText = findViewById(R.id.emailEditText);
-        phoneEditText = findViewById(R.id.phoneEditText);
-        passwordEditText = findViewById(R.id.passwordEditText);
-        passwordConfirmEditText = findViewById(R.id.passwordConfirmEditText);
-        submitButton = findViewById(R.id.submitButton);
-        newAct = findViewById(R.id.new_act);
-        newAct.setOnClickListener(new View.OnClickListener() {
+        apiService = ApiUtils.getSOService();
+        ButterKnife.bind(this);
+        getNews();
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        rvGames.setLayoutManager(layoutManager);
+        rvGames.setAdapter(adapter);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
-                startActivity(intent);
+            public void onRefresh() {
+                getNews();
+                pullToRefresh.setRefreshing(false);
             }
         });
-
-    }
-    private void saveData(User user){
-        SharedPreferences mPrefs = getSharedPreferences("user", Context.MODE_PRIVATE);
-        SharedPreferences.Editor prefsEditor = mPrefs.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(user);
-        prefsEditor.putString("user", json);
-        prefsEditor.commit();
     }
 
-    public void submitData(View view) {
-        firstName = firstNameEditText.getText().toString();
-        lastName = lastNameEditText.getText().toString();
-        email = emailEditText.getText().toString();
-        phone = phoneEditText.getText().toString();
-        password = passwordEditText.getText().toString();
-        confirmPassword = passwordConfirmEditText.getText().toString();
-
-        if (!Validations.isValidPassword(password) || !confirmPassword.equals(password) ||
-                !Validations.isValidPhoneNumber(phone) || !Validations.isValidEmail(email) ||
-                !Validations.isValidFirstName(firstName) || !Validations.isValidLastName(lastName))
-        {
-            if (!Validations.isValidFirstName(firstName)) {
-                firstNameEditText.setError("Такого імені неіснує!");
-            }
-            if (!Validations.isValidLastName(lastName)) {
-                lastNameEditText.setError("Такого прізвища неіснує!");
-            }
-            if (!Validations.isValidPassword(password)) {
-                passwordEditText.setError("Парол повинен містити більше 8 символів!");
-            }
-            if (!confirmPassword.equals(password)) {
-                passwordConfirmEditText.setError("Перевірка чи співпадають паролі");
-            }
-            if (!Validations.isValidPhoneNumber(phone)) {
-                System.out.println(phone);
-                phoneEditText.setError("Перевірте чи правильно введено телефон");
-            }
-            if (!Validations.isValidEmail(email)) {
-                emailEditText.setError("Неправильний email");
-
+    public void getNews() {
+        apiService.getNews().enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+                if (response.isSuccessful()) {
+                    adapter.replaceAll(response.body().getArticles());
+                } else {
+                    Log.e("Error", "News dont load");
+                }
             }
 
-        }
-        else {
-
-            User user = new User(firstName, lastName, phone, email);
-            saveData(user);
-            firstNameEditText.setText("");
-            lastNameEditText.setText("");
-            phoneEditText.setText("");
-            emailEditText.setText("");
-            passwordEditText.setText("");
-            passwordConfirmEditText.setText("");
-            Toast.makeText(getApplicationContext(), "Дані збережено", Toast.LENGTH_LONG).show();
-        }
-
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+                Log.d("MainActivity", "error loading from API");
+            }
+        });
     }
 
-
+    @Override
+    public void onGameClick(Article article) {
+        Intent intent = new Intent(this, NewsDetails.class);
+        intent.putExtra("title", article.getTitle());
+        intent.putExtra("description", article.getDescription());
+        intent.putExtra("author", article.getAuthor());
+        intent.putExtra("image_url", article.getUrlToImage());
+        startActivity(intent);
+    }
 }
