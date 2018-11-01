@@ -1,9 +1,7 @@
 package com.example.nazarbogdan.mobile;
 
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,7 +19,10 @@ public class NewsDetails extends AppCompatActivity {
     TextView tvDescription;
     @BindView(R.id.ivPicture)
     ImageView ivPicture;
-    String title, description, imageURL, author;
+    private String title;
+    private String description;
+    private String imageURL;
+    private String author;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

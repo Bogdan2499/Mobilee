@@ -7,12 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
-import com.example.nazarbogdan.mobile.Adapter.NewsAdapter;
-import com.example.nazarbogdan.mobile.Models.Article;
-import com.example.nazarbogdan.mobile.Models.Result;
-import com.example.nazarbogdan.mobile.Retrofit.ApiService;
-import com.example.nazarbogdan.mobile.Retrofit.ApiUtils;
+import com.example.nazarbogdan.mobile.adapter.NewsAdapter;
+import com.example.nazarbogdan.mobile.models.Article;
+import com.example.nazarbogdan.mobile.models.Result;
+import com.example.nazarbogdan.mobile.retrofit.ApiService;
+import com.example.nazarbogdan.mobile.retrofit.ApiUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,10 +21,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements NewsAdapter.Callback {
+public class MainActivity extends AppCompatActivity implements NewsAdapter.OnItemCLickListener {
 
     private ApiService apiService;
-    private NewsAdapter adapter = new NewsAdapter(this, this);
+    private NewsAdapter adapter = new NewsAdapter(this);
     @BindView(R.id.rvNews)
     RecyclerView rvGames;
     @BindView(R.id.swipeContainer)
@@ -33,6 +34,10 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.Callb
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        init();
+    }
+
+    private void init() {
         apiService = ApiUtils.getSOService();
         ButterKnife.bind(this);
         getNews();
@@ -55,13 +60,17 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.Callb
                 if (response.isSuccessful()) {
                     adapter.replaceAll(response.body().getArticles());
                 } else {
-                    Log.e("Error", "News dont load");
+                    Log.e("Error", "News don't load");
+                    Toast.makeText(getApplicationContext(), "error loading from API",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Result> call, Throwable t) {
                 Log.d("MainActivity", "error loading from API");
+                Toast.makeText(getApplicationContext(), "error loading from API",
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -1,6 +1,6 @@
-package com.example.nazarbogdan.mobile.Retrofit;
+package com.example.nazarbogdan.mobile.retrofit;
 
-import com.example.nazarbogdan.mobile.Models.Result;
+import com.example.nazarbogdan.mobile.models.Result;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
