@@ -1,7 +1,8 @@
-package com.example.nazarbogdan.mobile.Models;
+package com.example.nazarbogdan.mobile.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -10,9 +11,9 @@ import java.util.List;
 public class Result {
 
     @SerializedName("articles")
-    private List<Article> articles = null;
+    private List<Article> articles = Collections.emptyList();
 
     public List<Article> getArticles() {
         return articles;
     }
-    }
+}

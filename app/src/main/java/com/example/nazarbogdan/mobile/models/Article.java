@@ -1,4 +1,4 @@
-package com.example.nazarbogdan.mobile.Models;
+package com.example.nazarbogdan.mobile.models;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -31,23 +31,12 @@ public class Article {
         return title;
     }
 
-
     public String getDescription() {
         return description;
     }
 
-
-    public String getUrl() {
-        return url;
-    }
-
     public String getUrlToImage() {
         return urlToImage;
-    }
-
-
-    public String getPublishedAt() {
-        return publishedAt;
     }
 
     public String getContent() {
