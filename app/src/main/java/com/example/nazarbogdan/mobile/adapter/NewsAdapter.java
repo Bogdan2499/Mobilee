@@ -20,10 +20,10 @@ import butterknife.ButterKnife;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private List<Article> mNews = new ArrayList<>();
-    private final OnItemCLickListener onItemCLickListener;
+    private final OnItemCLickListener mOnItemCLickListener;
 
-    public NewsAdapter(OnItemCLickListener onItemCLickListener) {
-        this.onItemCLickListener = onItemCLickListener;
+    public NewsAdapter(OnItemCLickListener mOnItemCLickListener) {
+        this.mOnItemCLickListener = mOnItemCLickListener;
     }
 
     @NonNull
@@ -36,7 +36,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 Article article = mNews.get(holder.getAdapterPosition());
-                onItemCLickListener.onGameClick(article);
+                mOnItemCLickListener.onGameClick(article);
 
             }
         });

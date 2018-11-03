@@ -8,39 +8,34 @@ import com.google.gson.annotations.SerializedName;
 public class Article {
 
     @SerializedName("author")
-    private String author;
+    private String mAuthor;
     @SerializedName("title")
-    private String title;
+    private String mTitle;
     @SerializedName("description")
-    private String description;
-    @SerializedName("url")
-    private String url;
+    private String mDescription;
     @SerializedName("urlToImage")
-    private String urlToImage;
-    @SerializedName("publishedAt")
-    private String publishedAt;
+    private String mUrlToImage;
     @SerializedName("content")
-    private String content;
+    private String mContent;
 
     public String getAuthor() {
-        return author;
+        return mAuthor;
     }
 
-
     public String getTitle() {
-        return title;
+        return mTitle;
     }
 
     public String getDescription() {
-        return description;
+        return mDescription;
     }
 
     public String getUrlToImage() {
-        return urlToImage;
+        return mUrlToImage;
     }
 
     public String getContent() {
-        return content;
+        return mContent;
     }
 
 
