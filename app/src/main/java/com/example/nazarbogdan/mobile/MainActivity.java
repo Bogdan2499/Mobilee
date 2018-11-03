@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.OnIte
     @BindView(R.id.rvNews)
     RecyclerView mRvGames;
     @BindView(R.id.swipeContainer)
-    SwipeRefreshLayout sPullToRefresh;
+    SwipeRefreshLayout mPullToRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +46,11 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.OnIte
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRvGames.setLayoutManager(layoutManager);
         mRvGames.setAdapter(mAdapter);
-        sPullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mPullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 getNews();
-                sPullToRefresh.setRefreshing(false);
+                mPullToRefresh.setRefreshing(false);
             }
         });
     }
