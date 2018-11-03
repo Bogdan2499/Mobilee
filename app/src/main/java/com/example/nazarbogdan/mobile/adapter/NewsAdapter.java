@@ -19,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
-    private List<Article> news = new ArrayList<>();
+    private List<Article> mNews = new ArrayList<>();
     private final OnItemCLickListener onItemCLickListener;
 
     public NewsAdapter(OnItemCLickListener onItemCLickListener) {
@@ -35,7 +35,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Article article = news.get(holder.getAdapterPosition());
+                Article article = mNews.get(holder.getAdapterPosition());
                 onItemCLickListener.onGameClick(article);
 
             }
@@ -45,7 +45,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        final Article article = news.get(position);
+        final Article article = mNews.get(position);
         Picasso.get().load(article.getUrlToImage()).into(holder.ivPicture);
         holder.tvName.setText(article.getTitle());
         holder.tvDeck.setText(article.getDescription());
@@ -53,12 +53,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return news.size();
+        return mNews.size();
     }
 
     public void replaceAll(List<Article> gamesToReplace) {
-        news.clear();
-        news.addAll(gamesToReplace);
+        mNews.clear();
+        mNews.addAll(gamesToReplace);
         notifyDataSetChanged();
     }
 

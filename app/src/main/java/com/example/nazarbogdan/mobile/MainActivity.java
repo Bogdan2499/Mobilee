@@ -1,5 +1,6 @@
 package com.example.nazarbogdan.mobile;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -23,8 +24,13 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements NewsAdapter.OnItemCLickListener {
 
-    private ApiService apiService;
-    private NewsAdapter adapter = new NewsAdapter(this);
+    private ApiService mApiService;
+    private NewsAdapter mAdapter = new NewsAdapter(this);
+    public static final String APIKEY = "0dc97a219994467aaa953d8f72d07024";
+    public static final String EXTRA_TITLE = "title";
+    public static final String EXTRA_DESCRIPTION = "description";
+    public static final String EXTRA_AUTHOR = "author";
+    public static final String EXTRA_IMAGE_PATH = "image_url";
     @BindView(R.id.rvNews)
     RecyclerView rvGames;
     @BindView(R.id.swipeContainer)
@@ -38,12 +44,12 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.OnIte
     }
 
     private void init() {
-        apiService = ApiUtils.getSOService();
+        mApiService = ApiUtils.getSOService();
         ButterKnife.bind(this);
         getNews();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvGames.setLayoutManager(layoutManager);
-        rvGames.setAdapter(adapter);
+        rvGames.setAdapter(mAdapter);
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -54,11 +60,11 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.OnIte
     }
 
     public void getNews() {
-        apiService.getNews().enqueue(new Callback<Result>() {
+        mApiService.getNews(APIKEY).enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
                 if (response.isSuccessful()) {
-                    adapter.replaceAll(response.body().getArticles());
+                    mAdapter.replaceAll(response.body().getArticles());
                 } else {
                     Log.e("Error", "News don't load");
                     Toast.makeText(getApplicationContext(), "error loading from API",
@@ -77,11 +83,14 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.OnIte
 
     @Override
     public void onGameClick(Article article) {
-        Intent intent = new Intent(this, NewsDetails.class);
-        intent.putExtra("title", article.getTitle());
-        intent.putExtra("description", article.getDescription());
-        intent.putExtra("author", article.getAuthor());
-        intent.putExtra("image_url", article.getUrlToImage());
-        startActivity(intent);
+        startActivity(getStartIntentFavourite(this, article));
+    }
+    public static Intent getStartIntentFavourite(Context context, Article article){
+        Intent intent = new Intent(context, NewsDetails.class);
+        intent.putExtra(EXTRA_TITLE, article.getTitle());
+        intent.putExtra(EXTRA_DESCRIPTION, article.getDescription());
+        intent.putExtra(EXTRA_AUTHOR, article.getAuthor());
+        intent.putExtra(EXTRA_IMAGE_PATH, article.getUrlToImage());
+        return intent;
     }
 }

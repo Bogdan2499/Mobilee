@@ -1,5 +1,6 @@
 package com.example.nazarbogdan.mobile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
@@ -19,10 +20,10 @@ public class NewsDetails extends AppCompatActivity {
     TextView tvDescription;
     @BindView(R.id.ivPicture)
     ImageView ivPicture;
-    private String title;
-    private String description;
-    private String imageURL;
-    private String author;
+    private String mTitle;
+    private String mDescription;
+    private String mImageURL;
+    private String mAuthor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +31,14 @@ public class NewsDetails extends AppCompatActivity {
         setContentView(R.layout.activity_news_details);
         ButterKnife.bind(this);
         getIncomingIntent();
-        setInfo(title, description, author, imageURL);
+        setInfo(mTitle, mDescription, mAuthor, mImageURL);
     }
 
     private void getIncomingIntent() {
-        title = getIntent().getStringExtra("title");
-        description = getIntent().getStringExtra("description");
-        imageURL = getIntent().getStringExtra("image_url");
-        author = getIntent().getStringExtra("author");
+        mTitle = getIntent().getStringExtra(MainActivity.EXTRA_TITLE);
+        mDescription = getIntent().getStringExtra(MainActivity.EXTRA_DESCRIPTION);
+        mImageURL = getIntent().getStringExtra(MainActivity.EXTRA_IMAGE_PATH);
+        mAuthor = getIntent().getStringExtra(MainActivity.EXTRA_AUTHOR);
     }
 
     private void setInfo(String title, String description, String author, String imageUrl) {
