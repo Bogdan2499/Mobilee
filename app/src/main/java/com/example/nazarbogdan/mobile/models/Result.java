@@ -11,9 +11,9 @@ import java.util.List;
 public class Result {
 
     @SerializedName("articles")
-    private List<Article> articles = Collections.emptyList();
+    private List<Article> mArticles = Collections.emptyList();
 
     public List<Article> getArticles() {
-        return articles;
+        return mArticles;
     }
 }
