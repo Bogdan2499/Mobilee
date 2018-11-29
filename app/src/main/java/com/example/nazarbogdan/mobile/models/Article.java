@@ -1,4 +1,4 @@
-package com.example.nazarbogdan.mobile.models;
+package com.example.nazarbogdan.mobile.Models;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -8,35 +8,44 @@ import com.google.gson.annotations.SerializedName;
 public class Article {
 
     @SerializedName("author")
-    private String mAuthor;
+    private String author;
     @SerializedName("title")
-    private String mTitle;
+    private String title;
     @SerializedName("description")
-    private String mDescription;
+    private String description;
+    @SerializedName("url")
+    private String url;
     @SerializedName("urlToImage")
-    private String mUrlToImage;
+    private String urlToImage;
+    @SerializedName("publishedAt")
+    private String publishedAt;
     @SerializedName("content")
-    private String mContent;
+    private String content;
+
+    public Article(String title, String description, String author, String urlToImage) {
+        this.author = author;
+        this.title = title;
+        this.description = description;
+        this.urlToImage = urlToImage;
+    }
 
     public String getAuthor() {
-        return mAuthor;
+        return author;
     }
 
     public String getTitle() {
-        return mTitle;
+        return title;
     }
 
     public String getDescription() {
-        return mDescription;
+        return description;
     }
 
     public String getUrlToImage() {
-        return mUrlToImage;
+        return urlToImage;
     }
 
     public String getContent() {
-        return mContent;
+        return content;
     }
-
-
 }

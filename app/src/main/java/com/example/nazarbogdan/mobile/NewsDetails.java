@@ -1,46 +1,25 @@
 package com.example.nazarbogdan.mobile;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.nazarbogdan.mobile.models.Article;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class NewsDetails extends AppCompatActivity {
-
-    private static final String EXTRA_TITLE = "title";
-    private static final String EXTRA_DESCRIPTION = "description";
-    private static final String EXTRA_AUTHOR = "author";
-    private static final String EXTRA_IMAGE_PATH = "image_url";
-
-    public static Intent getStartIntentFavourite(Context context, Article article){
-        Intent intent = new Intent(context, NewsDetails.class);
-        intent.putExtra(EXTRA_TITLE, article.getTitle());
-        intent.putExtra(EXTRA_DESCRIPTION, article.getDescription());
-        intent.putExtra(EXTRA_AUTHOR, article.getAuthor());
-        intent.putExtra(EXTRA_IMAGE_PATH, article.getUrlToImage());
-        return intent;
-    }
-
     @BindView(R.id.tvTitle)
-    TextView mTvTitle;
+    TextView tvTitle;
     @BindView(R.id.tvAuthor)
-    TextView mTvAuthor;
+    TextView tvAuthor;
     @BindView(R.id.tvDescription)
-    TextView mTvDescription;
+    TextView tvDescription;
     @BindView(R.id.ivPicture)
-    ImageView mIvPicture;
-    private String mTitle;
-    private String mDescription;
-    private String mImageURL;
-    private String mAuthor;
+    ImageView ivPicture;
+    String title, description, imageURL, author;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,19 +27,21 @@ public class NewsDetails extends AppCompatActivity {
         setContentView(R.layout.activity_news_details);
         ButterKnife.bind(this);
         getIncomingIntent();
-        setInfo(mTitle, mDescription, mAuthor, mImageURL);
+        setInfo(title, description, author, imageURL);
     }
 
     private void getIncomingIntent() {
-        mTitle = getIntent().getStringExtra(EXTRA_TITLE);
-        mDescription = getIntent().getStringExtra(EXTRA_DESCRIPTION);
-        mImageURL = getIntent().getStringExtra(EXTRA_IMAGE_PATH);
-        mAuthor = getIntent().getStringExtra(EXTRA_AUTHOR);
+        title = getIntent().getStringExtra("title");
+        description = getIntent().getStringExtra("description");
+        imageURL = getIntent().getStringExtra("image_url");
+        author = getIntent().getStringExtra("author");
     }
+
     private void setInfo(String title, String description, String author, String imageUrl) {
-        mTvTitle.setText(title);
-        mTvDescription.setText(description);
-        mTvAuthor.setText(author);
-        Picasso.get().load(imageUrl).into(mIvPicture);
+        tvTitle.setText(title);
+        tvDescription.setText(description);
+        tvAuthor.setText(author);
+        Picasso.get().load(imageUrl).into(ivPicture);
     }
+
 }
