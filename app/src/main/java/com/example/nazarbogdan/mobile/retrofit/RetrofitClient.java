@@ -1,4 +1,4 @@
-package com.example.nazarbogdan.mobile.retrofit;
+package com.example.nazarbogdan.mobile.Retrofit;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -6,12 +6,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by Bogdan2499 on 12.10.2018.
  */
-public class RetrofitClient {
+public class RetrofitClient{
 
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient(String baseUrl) {
-        if (retrofit == null) {
+        if (retrofit==null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(baseUrl)
                     .addConverterFactory(GsonConverterFactory.create())
