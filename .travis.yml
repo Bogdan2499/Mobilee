@@ -28,4 +28,4 @@ before_script:
     
 script:
  - ./gradlew connectedAndroidTest
- - ./gradlew clean assembleDebug test lint
+ - ./gradlew clean assembleDebug lint
