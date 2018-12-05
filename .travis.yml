@@ -24,7 +24,6 @@ deploy:
 
 before_script:
   - echo yes | sdkmanager "build-tools;27.0.3"
-  - cd Labs
   - chmod +x gradlew
     
 script:
