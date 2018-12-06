@@ -27,5 +27,4 @@ before_script:
   - chmod +x gradlew
     
 script:
- - ./gradlew connectedAndroidTest
  - ./gradlew clean assembleDebug lint
